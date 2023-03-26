@@ -8,12 +8,23 @@ const initialState = {
 const reducer = (state = initialState, action) => {
     switch(action.type) {
 
-        case "register":
+        case "REGISTER":
             return {
                 ...state, 
                 users : [...state.users, action.payload]
             }
 
+        case "LOGIN":
+            return {
+                ...state, 
+                user : action.payload
+            }
+
+        case "LOGOUT":
+            return {
+                ...state, 
+                user : null
+            }
 
         default:
         return state;
@@ -21,19 +32,6 @@ const reducer = (state = initialState, action) => {
 }
 
 export default createStore(reducer)
-
-
-
-
-
-// import { configureStore } from "@reduxjs/toolkit"
-
-// const store = configureStore({
-//     reducer: 
-// })
-
-// export default store
-
 
 
 

@@ -13,7 +13,7 @@ function RegistrationForm() {
 
     const register = () => {
         dispatch({
-            type: "register", 
+            type: "REGISTER", 
             payload: {
                 username, email, password, role
             }
