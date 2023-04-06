@@ -1,37 +1,37 @@
-import { createStore } from "redux";
+// import { createStore } from "redux";
 
-const initialState = {
-    users: [],
-    loggedInUser: null
-}
+// const initialState = {
+//     users: [],
+//     loggedInUser: null
+// }
 
-const reducer = (state = initialState, action) => {
-    switch(action.type) {
+// const reducer = (state = initialState, action) => {
+//     switch(action.type) {
 
-        case "REGISTER":
-            return {
-                ...state, 
-                users : [...state.users, action.payload]
-            }
+//         case "REGISTER":
+//             return {
+//                 ...state, 
+//                 users : [...state.users, action.payload]
+//             }
 
-        case "LOGIN":
-            return {
-                ...state, 
-                user : action.payload
-            }
+//         case "LOGIN":
+//             return {
+//                 ...state, 
+//                 user : action.payload
+//             }
 
-        case "LOGOUT":
-            return {
-                ...state, 
-                user : null
-            }
+//         case "LOGOUT":
+//             return {
+//                 ...state, 
+//                 user : null
+//             }
 
-        default:
-        return state;
-    }
-}
+//         default:
+//         return state;
+//     }
+// }
 
-export default createStore(reducer)
+// export default createStore(reducer)
 
 
 
