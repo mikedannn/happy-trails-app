@@ -10,10 +10,42 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_03_22_042046) do
+ActiveRecord::Schema.define(version: 2023_04_07_024305) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "resorts", force: :cascade do |t|
+    t.string "name"
+    t.string "location"
+    t.string "description"
+    t.string "image_url"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "trails", force: :cascade do |t|
+    t.string "name"
+    t.string "difficulty"
+    t.integer "length"
+    t.text "description"
+    t.integer "resort_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "user_trails", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "trail_id", null: false
+    t.string "status"
+    t.boolean "favorite"
+    t.text "note"
+    t.date "date"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["trail_id"], name: "index_user_trails_on_trail_id"
+    t.index ["user_id"], name: "index_user_trails_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "username"
@@ -24,4 +56,6 @@ ActiveRecord::Schema.define(version: 2023_03_22_042046) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "user_trails", "trails"
+  add_foreign_key "user_trails", "users"
 end
