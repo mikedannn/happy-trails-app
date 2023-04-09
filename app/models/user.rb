@@ -6,7 +6,7 @@ class User < ApplicationRecord
     validates :password_digest, presence: true 
     validates :role, presence: true
 
-    # has_many: user_trails
-    # has_many: trails, through: :user_trails
-    # has_many: resorts, through: :trails
+    has_many :user_trails
+    has_many :trails, through: :user_trails
+    has_many :resorts, through: :trails
 end
