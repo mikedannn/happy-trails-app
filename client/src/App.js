@@ -6,23 +6,23 @@ import Login from './components/Login';
 import Signup from './components/Signup';
 
 function App() {
-    const [user, setUser] = useState(null);
+    // const [user, setUser] = useState(null);
     
-    useEffect(() => {
-        fetch("/me")
-            .then((response) => {
-              if (response.ok) {
-                response.json().then((data) => setUser(data))
-            }
-            });
-    }, []);
+    // useEffect(() => {
+    //     fetch("/me")
+    //         .then((response) => {
+    //           if (response.ok) {
+    //             response.json().then((data) => setUser(data))
+    //         }
+    //         });
+    // }, []);
 
 
     return (
         <div className="App" style={{paddingTop: "120px"}}>
     
             <div>
-                <Signup/>
+                {/* <Signup/> */}
                 <Login/>
             </div>
             <div className='App'>

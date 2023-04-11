@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { login } from '../actions/authActions';
+import { login } from '../features/user/authSlice';
 
-function LoginForm() {
+function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("")
@@ -12,21 +12,6 @@ function LoginForm() {
         e.preventDefault();
         dispatch(login(username, password));
     };
-    
-    // const login = () => {
-        
-    //     const payload = users.find(user => user.username === username && user.password === password)
-    
-    //     if(payload){
-    //         dispatch({
-    //             type : 'LOGIN',
-    //             payload
-    //         })
-    //         alert('SUCCESS!')
-    //     } else {
-    //         alert('Wrong username or password!')
-    //     }
-    // }
 
     return (
         <div>
@@ -80,4 +65,4 @@ function LoginForm() {
 
 }
 
-export default LoginForm;
+export default Login;
