@@ -1,40 +1,45 @@
-import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import React, { useState, useEffect } from 'react';
+import { Route, Routes } from "react-router-dom";
+import { useDispatch } from 'react-redux';
+import { signup } from '../actions/authActions';
 
 const Signup = () => {
-
-    const [username, setUsername] = useState("")
-    const [password, setPassword] = useState("")
-    const [passwordConfirmation, setPasswordConfirmation] = useState("")
-    const [role, setRole] = useState("")
-    const [email, setEmail] = useState("")
     const [errors, setErrors] = useState([])
+    const [formData, setFormData] = useState({
+        username: '',
+        email: '',
+        password: '',
+        passwordConfirmation: '',
+        role: ''
+      });
 
-    const dispactch = useDispatch();
+    const dispatch = useDispatch();
 
-    const signup = () => {
-        dispactch({
-            type : "SIGNUP",
-            payload : {
-                username, email, password, passwordConfirmation, role
-            }
-        })
-    }
-
+    const handleSubmit = e => {
+        e.preventDefault();
+        dispatch(signup(formData));
+      };
+    
+      const handleChange = e => {
+        setFormData({
+          ...formData,
+          [e.target.name]: e.target.value
+        });
+      };
 
     return (
   
         <div className="signUpForm">
         <h1 >Create Account</h1>
-        <form onSubmit={signup}>
+        <form onSubmit={handleSubmit}>
           <div>
               <label htmlFor="username">Username:</label>
                   <input 
                       type="text" 
                       id="username" 
                       name="username" 
-                      value={username}
-                      onChange={(e) => setUsername(e.target.value)}
+                      value={formData.username}
+                      onChange={handleChange}
                       required
                   >
                   </input>
@@ -46,8 +51,8 @@ const Signup = () => {
                       type="text" 
                       id="email" 
                       name="email" 
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      value={formData.email}
+                      onChange={handleChange}
                       required
                   >
                   </input>
@@ -59,8 +64,8 @@ const Signup = () => {
                       type="password" 
                       id="password" 
                       name="password" 
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+                      value={formData.password}
+                      onChange={handleChange}
                       required
                   >
                   </input>
@@ -70,10 +75,10 @@ const Signup = () => {
               <label htmlFor="confirm-password">Confirm Password: </label>
                   <input 
                       type="password" 
-                      id="password_confirmation" 
-                      name="password_confirmation" 
-                      value={passwordConfirmation}
-                      onChange={(e) => setPasswordConfirmation(e.target.value)}
+                      id="passwordConfirmation" 
+                      name="passwordConfirmation" 
+                      value={formData.passwordConfirmation}
+                      onChange={handleChange}
                       required
                   >
                   </input>
@@ -87,8 +92,8 @@ const Signup = () => {
                     placeholder="Select Role"
                     id="role"
                     name="role"
-                    value={role}
-                    onChange={(e) => setRole(e.target.value)}
+                    value={formData.role}
+                    onChange={handleChange}
                     required
                 >
                     <option value="skier">Skier</option>

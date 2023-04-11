@@ -1,28 +1,32 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-
+import { useDispatch } from 'react-redux';
+import { login } from '../actions/authActions';
 
 function LoginForm() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("")
     const dispatch = useDispatch()
-    const users = useSelector(state => state.users)
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        dispatch(login(username, password));
+    };
     
-    const login = () => {
+    // const login = () => {
         
-        const payload = users.find(user => user.username === username && user.password === password)
+    //     const payload = users.find(user => user.username === username && user.password === password)
     
-        if(payload){
-            dispatch({
-                type : 'LOGIN',
-                payload
-            })
-            alert('SUCCESS!')
-        } else {
-            alert('Wrong username or password!')
-        }
-    }
+    //     if(payload){
+    //         dispatch({
+    //             type : 'LOGIN',
+    //             payload
+    //         })
+    //         alert('SUCCESS!')
+    //     } else {
+    //         alert('Wrong username or password!')
+    //     }
+    // }
 
     return (
         <div>
@@ -31,7 +35,7 @@ function LoginForm() {
             </div>  
         <div  className="loginForm">
           <h1>Login</h1>
-          <form onSubmit={login}>
+          <form onSubmit={handleSubmit}>
             <div>
                 <label htmlFor="username">Username:</label>
                     <input 

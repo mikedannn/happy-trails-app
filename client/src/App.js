@@ -1,25 +1,33 @@
-import { useSelector } from 'react-redux';
+import React, { useState, useEffect } from "react";
 import './App.css';
-import Signup from './components/Signup';
+// import { Route, Routes } from "react-router-dom";
+// import Navbar from "./components/Navbar";
 import Login from './components/Login';
+import Signup from './components/Signup';
 
 function App() {
+    const [user, setUser] = useState(null);
+    
+    useEffect(() => {
+        fetch("/me")
+            .then((response) => {
+              if (response.ok) {
+                response.json().then((data) => setUser(data))
+            }
+            });
+    }, []);
 
-    const user = useSelector(state => state.user) 
 
     return (
-        <div>
+        <div className="App" style={{paddingTop: "120px"}}>
+    
             <div>
                 <Signup/>
-                {
-                    user
-                    ? <input type='button' value='logout'/>
-                    : <Login/>
-                }
+                <Login/>
             </div>
             <div className='App'>
                 happy trails
-            </div>
+            </div> 
         </div>
     );
 }

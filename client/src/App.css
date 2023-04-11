@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  background: rgba(rgb(93, 187, 255));
 }
 
 .App-logo {
@@ -13,26 +14,10 @@
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.welcomeHeader {
+  color: rgba(8, 103, 114, 0.65);
+  text-align: center;
+  padding-top: 45px;
+  padding-bottom: 25px;
+  font-size: 60px;
 }
