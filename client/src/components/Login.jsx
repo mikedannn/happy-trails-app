@@ -1,17 +1,50 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { login } from '../features/user/userSlice';
+import { setUser } from '../features/user/userSlice';
+import {Link, useNavigate} from 'react-router-dom';
+
 
 function Login() {
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [error, setError] = useState("")
+    const [form, setForm] = useState({
+        username: "",
+        password: ""
+    });
+    const [errors, setErrors] = useState([]);
+
+    const displayErrors = errors?.map(error => <p key={error} style={{color: 'red'}}>{error}</p>)
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(login(username, password));
+        const configObj = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(form)
+        }
+        fetch('/login', configObj)
+        .then(r => {
+            if (r.ok){
+                r.json().then(data => {
+                  dispatch(setUser(data))
+                  navigate("/")
+                })
+            } else {
+              r.json().then(data => {
+                setErrors(data.errors)
+              })
+            }
+        })
     };
+
+    function handleChange(e){
+        setForm({
+            ...form,
+            [e.target.name]: e.target.value
+        })
+    }
 
     return (
         <div>
@@ -28,8 +61,8 @@ function Login() {
                         id="username" 
                         name="username"
                         className="username" 
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
+                        value={form.username}
+                        onChange={handleChange}
                         autoFocus={true}
                         required
                     >
@@ -43,22 +76,23 @@ function Login() {
                         id="password" 
                         name="password" 
                         className='password'
-                        value={password} 
-                        onChange={(e) => setPassword(e.target.value)}
+                        value={form.password} 
+                        onChange={handleChange}
                         required
                     >
                     </input>
             </div>
-                {
-                error ? 
-                <div className="errors-container">
-                    <span id="error-message">{error}</span>
-                </div> 
-                : null 
-                }
+            <div className="errors-container">
+                {errors ? displayErrors : null }
+            </div> 
             <br />
                 <input className="formButton" type="submit" value="Login" />
           </form>
+            <button>
+                <Link to="/signup" >
+                  Don't have an account? Sign Up
+                </Link>
+              </button>
         </div>
         </div>
     );

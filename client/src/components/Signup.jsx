@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-// import { signup } from '../actions/authActions';
+import { setUser } from '../features/user/userSlice';
+import {Link, useNavigate} from 'react-router-dom';
+
 
 const Signup = () => {
     const [errors, setErrors] = useState([])
@@ -13,13 +15,39 @@ const Signup = () => {
       });
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const displayErrors = errors?.map(error => <p style={{color: "red"}}>{error}</p>);
 
-    // const handleSubmit = e => {
-    //     e.preventDefault();
-    //     dispatch(signup(formData));
-    //   };
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const newUser = {
+          username: formData.username,
+          email: formData.email,
+          password: formData.password,
+          password_confirmation: formData.passwordConfirmation,
+          role: formData.role
+        }
+        const configObj = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(newUser)
+        }
+        fetch('/signup', configObj)
+        .then(r => {
+            if (r.ok){
+                r.json().then(data => {
+                dispatch(setUser(data))
+                navigate("/")
+                })
+            } else {
+                r.json().then(data => setErrors(data.errors))
+            }
+        })
+    };
     
-      const handleChange = e => {
+      const handleChange = (e) => {
         setFormData({
           ...formData,
           [e.target.name]: e.target.value
@@ -30,7 +58,7 @@ const Signup = () => {
   
         <div className="signUpForm">
         <h1 >Create Account</h1>
-        <form onSubmit={(e) => console.log(e)}>
+        <form onSubmit={handleSubmit}>
           <div>
               <label htmlFor="username">Username:</label>
                   <input 
@@ -101,12 +129,11 @@ const Signup = () => {
           </div>
 
           {
-          errors ? 
-          <div className="errors-container">
-          {errors.map((err) => (
-                  <span id="error-message" key={err}>{`Invalid: ${err}`}</span>))}
-              </div> 
-          : null 
+          
+        <div className="errors-container">
+            {errors ? displayErrors : null }
+        </div> 
+          
           }
               <br />
               <input className='formButton' type="submit" value="Create Account" />
