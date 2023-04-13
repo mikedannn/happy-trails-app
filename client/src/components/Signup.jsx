@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { setUser } from '../features/user/userSlice';
+import { setCurrentUser } from '../features/user/userSlice';
 import {Link, useNavigate} from 'react-router-dom';
 
 
@@ -38,7 +38,7 @@ const Signup = () => {
         .then(r => {
             if (r.ok){
                 r.json().then(data => {
-                dispatch(setUser(data))
+                dispatch(setCurrentUser(data))
                 navigate("/")
                 })
             } else {

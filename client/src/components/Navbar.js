@@ -2,17 +2,19 @@ import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Button from "react-bootstrap/Button";
 import Navbar from 'react-bootstrap/Navbar';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { removeUser } from '../features/user/userSlice';
 
-function NavBar({ user, setUser }) {
+function NavBar() {
+    const user = useSelector(state => state.user.user)
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
 
-    const handleLogout = () => {
-        fetch('/logout', {
-            method: "DELETE"
-        }).then((r) => {
-            if (r.ok) {
-                setUser(null);
-            }
-        }).then(<redirect to="/" />)
+    function logout(){
+        fetch("/logout", {method: "DELETE"})
+        .then(()=> navigate('/login'))
+        .then(dispatch(removeUser()))
     }
 
     const renderNavbarButtons = () => {
@@ -22,12 +24,12 @@ function NavBar({ user, setUser }) {
                     <Navbar.Text id="current-user-name">
                        <b>{`@${user.username}`}</b>
                     </Navbar.Text>
-                    <Button variant="info" className="accountButton" href="/account">
-                        Add New Review
+                    <Button variant="info" className="search-resorts" href="/resorts/search">
+                        Search Resorts
                     </Button>
                     <Button 
                         className="logoutButton" variant="outline-info" 
-                        onClick={handleLogout}
+                        onClick={logout}
                         >Logout
                     </Button>
                 </>

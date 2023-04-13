@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { setUser } from '../features/user/userSlice';
+import { setCurrentUser } from '../features/user/userSlice';
 import {Link, useNavigate} from 'react-router-dom';
 
 
@@ -28,7 +28,7 @@ function Login() {
         .then(r => {
             if (r.ok){
                 r.json().then(data => {
-                  dispatch(setUser(data))
+                  dispatch(setCurrentUser(data))
                   navigate("/")
                 })
             } else {
@@ -88,11 +88,6 @@ function Login() {
             <br />
                 <input className="formButton" type="submit" value="Login" />
           </form>
-            <button>
-                <Link to="/signup" >
-                  Don't have an account? Sign Up
-                </Link>
-              </button>
         </div>
         </div>
     );

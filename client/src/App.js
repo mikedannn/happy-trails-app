@@ -5,11 +5,13 @@ import { Router, Route, Routes, useNavigate, useLocation } from "react-router-do
 // import ForgotPasswordResetForm from "./userAuth/ForgotPasswordResetForm";
 // import Navbar from "./components/Navbar";
 import { useDispatch, useSelector } from "react-redux"
-import { setUser } from "./features/user/userSlice"
+import { setCurrentUser } from "./features/user/userSlice"
 // import { setResorts } from "./features/resorts/resortsSlice"
 import Login from './components/Login';
 import Signup from './components/Signup';
 import Home from "./components/Home";
+import NavBar from "./components/NavBar";
+import LoginToggle from "./components/LoginToggle";
 // import ProfilePage from './userAuth/ProfilePage.js'
 
 function App() {
@@ -23,63 +25,40 @@ function App() {
     fetch("/me")
     .then(r =>{
       if (r.ok){
-        r.json().then(data =>{
-          dispatch(setUser(data))
+        r.json().then((user) =>{
+          dispatch(setCurrentUser(user))
         })
       } 
-      else if (location.pathname === '/signup') {
-        return null
-      } else if (location.pathname === '/password/reset/edit'){
-        return null
-      } else if  (location.pathname === '/forgotpassword'){
-        return null
-      } else {
-        navigate('/login')
-      }
     })
   }, [location.pathname, dispatch, navigate])
 
-// fetch resorts
-//   useEffect(() => {
-//     if(user !== null){
-//     fetch('/resorts')
-//     .then(r => r.json())
-//     .then(data =>
-//       dispatch(setResorts(data)))
-//     }
-//     },[user, dispatch])
-
-
-// fetch user trails
-//   useEffect(() => {
-//     if(user !== null){
-//     fetch('/user_trails')
-//     .then(r => {
-//         if(r.ok){
-//             r.json().then(data => {
-//                 dispatch(setUserTrails(data))
-//             })
-//         } else {
-//             return null
-//         }
-//     })
-//   }
-// },[user, dispatch])
-// 
-
 return (
     <div className="App">
-      <Routes>
-        <Route path="/login" element={<Login/>}/>
-        <Route path="/signup" element={<Signup/>}/>
-        {/* <Route path="/forgotpassword" element={<ForgotPassword />}/> */}
-        {/* <Route path="/password/reset/edit" element={<ForgotPasswordResetForm />}/> */}
-        {/* <Route path="/createtrip" element={<CreateTripForm />}/> */}
-        {/* <Route path="/mytrip/:id" element={<TripPage />}/> */}
-        {/* <Route path="/adventure/:id" element={<AdventurePage />}/> */}
-        {/* <Route path="/myprofile/:id" element={<ProfilePage/>}/> */}
-        <Route exact path="/" element={<Home/>}/>
-      </Routes>
+        <div id='navbar'>
+            <NavBar/>
+        </div>
+
+        { !user ? <LoginToggle/> : 
+        
+        <Routes>
+            <Route path="/" element={<Home/>}/> 
+            <Route path="/login" element={<Login/>}/>
+            <Route path="/signup" element={<Signup/>}/>
+          {/* <Route 
+            path="/account" 
+            element={<Account user={user}/>} 
+          />
+          <Route 
+            path="/account/wines/new" 
+            element={<WineForm/>} 
+          />   
+          <Route 
+            path="/wines/:id" 
+            element={<WineShowPage user={user}/>} 
+          />    */}
+        </Routes>
+        }
+
     </div>
   );
 }
